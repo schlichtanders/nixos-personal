@@ -24,7 +24,6 @@
   # for some reason we need to be explicit about the overlays which we want to use in nixos
   nixpkgs.overlays =
     [
-      (import /etc/nixos/overlays/overlay-julia.nix)
       (import /etc/nixos/overlays/overlay-nwjs-0-51.nix)
       (import /etc/nixos/overlays/overlay-pdfarranger.nix)
       (import /etc/nixos/overlays/overlay-tiddlydesktop.nix)
@@ -173,6 +172,8 @@
   environment.variables.VISUAL = "code";
   environment.shellAliases = {
     code = "code-insiders";
+    jupyter-notebook = "conda-shell -c jupyter-notebook";
+    jupyter-lab = "conda-shell -c jupyter-lab";
   };
   environment.shellInit = ''
   '';
@@ -262,17 +263,15 @@
   # search packages by running: `nix search wget`
   environment.systemPackages = 
   with pkgs;
-  # adapted from https://github.com/olynch/scientific-fhs
-  with { fhsCommand = pkgs.callPackage ./other/scientific-fhs { juliaVersion = "julia_16"; }; };
   [
     xsel git wget curl zsh htop tmux vim kakoune unzip xdotool
+    expect unixtools.script  # work with terminal color output
     vscode-with-extensions
     ksshaskpass keepass
     libinput-gestures fusuma wmctrl  # touchpad gestures... does not seem to work
     rnix-lsp  # nix language server
-    # conda julia
-    (fhsCommand "julia" "julia")
-    (fhsCommand "julia-bash" "bash")  # after entering `julia-bash` the first time, you need to run `conda-install` in order for conda to work
+    conda  # for global state installation of scientific machine learning, e.g. jupyter-notebook
+    julia-stable-bin
     syncthing dropbox-cli
     tdesktop signal-desktop slack
     kate firefox google-chrome plasma-browser-integration
@@ -284,7 +283,7 @@
     tiddlydesktop
     libreoffice-qt
     obs-studio  # screen recording tool
-    kdenlive rubberband # video editing tools
+    ffmpeg-full kdenlive rubberband # video editing tools
   ];
 
 }
