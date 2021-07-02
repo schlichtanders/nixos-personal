@@ -75,7 +75,7 @@ with {
       # combining information from https://github.com/NixOS/nixpkgs/blob/fc553c0bc5411478e2448a707f74369ae9351e96/pkgs/tools/misc/etcher/default.nix#L49y
       # and https://github.com/NixOS/nixpkgs/issues/76526#issuecomment-569131432
       # and https://www.codepicky.com/hacking-electron-restyle-skype/
-      patchPhase = (old.patchPhase or "") + ''
+      postPatch = (old.postPatch or "") + ''
         # PATCHING RUN AS SUDO
         # --------------------
         # where to find the node.js librar .asar was described here https://github.com/NixOS/nixpkgs/issues/76526#issuecomment-569131432
