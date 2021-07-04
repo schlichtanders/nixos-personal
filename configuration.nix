@@ -18,7 +18,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # ./modules/module-latestPackages.nix
     ];
       
   # for some reason we need to be explicit about the overlays which we want to use in nixos
