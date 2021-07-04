@@ -27,7 +27,7 @@
       (import /etc/nixos/overlays/overlay-pdfarranger.nix)
       (import /etc/nixos/overlays/overlay-tiddlydesktop.nix)
       (import /etc/nixos/overlays/overlay-vscode.nix)
-      (import /etc/nixos/overlays/overlay-kdenlive.nix)
+      (import /etc/nixos/overlays/overlay-pitch-compensation.nix)
     ];
      
   nix.nixPath =
