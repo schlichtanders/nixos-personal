@@ -24,7 +24,6 @@
   # for some reason we need to be explicit about the overlays which we want to use in nixos
   nixpkgs.overlays =
     [
-      (import /etc/nixos/overlays/overlay-nwjs-0-51.nix)
       (import /etc/nixos/overlays/overlay-pdfarranger.nix)
       (import /etc/nixos/overlays/overlay-tiddlydesktop.nix)
       (import /etc/nixos/overlays/overlay-vscode.nix)
