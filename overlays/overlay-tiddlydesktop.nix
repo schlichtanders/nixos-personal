@@ -198,11 +198,11 @@ final: prev: {
   tiddlydesktop = final.callPackage tiddlydesktop {
     nwjs-sdk = final.nwjs_0_51-sdk;
   };
-  nwjs_0_51 = pkgs.callPackage nwjs_0_51 {
-    gconf = pkgs.gnome2.GConf;
+  nwjs_0_51 = final.callPackage nwjs_0_51 {
+    gconf = final.gnome2.GConf;
   };
-  nwjs_0_51-sdk = pkgs.callPackage nwjs_0_51 {
-    gconf = pkgs.gnome2.GConf;
+  nwjs_0_51-sdk = final.callPackage nwjs_0_51 {
+    gconf = final.gnome2.GConf;
     sdk = true;
   };
   
