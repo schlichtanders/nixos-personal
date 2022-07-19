@@ -58,7 +58,7 @@ with {
         icon = "tiddlydesktop";
         comment = "TiddlyDesktop";
         genericName = "Desktop application to manage tiddly wikis.";
-        categories = "GNOME;GTK;Utility;";
+        categories = ["GNOME" "GTK" "Utility"];
       };
 
       installPhase = ''

@@ -24,7 +24,7 @@ final: prev:
   });
 
   # kdenlive can use rubberband for pitch compensation (does not work yet)
-  kdenlive = (prev.kdenlive.override (old: {
+  kdenlive-pitch-compensation-still-not-working = (prev.kdenlive.override (old: {
       ffmpeg-full = final.ffmpeg-full;
     })
   ).overrideAttrs (old: {
