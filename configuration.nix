@@ -238,11 +238,19 @@ with {
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_MEASUREMENT = "en_DE.UTF-8";
-    LC_MONETARY = "en_DE.UTF-8";
-    LC_COLLATE = "en_DE.UTF-8";
-    LC_NUMERIC = "en_DE.UTF-8";
-    LC_TIME = "en_DE.UTF-8";
+    LANGUAGE = "en_US:de_DE";
+    # LC_CTYPE = "en_US.UTF-8";  # this is the default Locale
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_COLLATE = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_MESSAGES = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
   };
   console = {
     font = "Lat2-Terminus16";
@@ -254,8 +262,9 @@ with {
   # environment.shellAliases = { };
   environment.homeBinInPath = true;
   environment.shellInit = ''
-    # mapping interrupt away from ctrl-c to ctrl-i
-    stty intr ^I
+    # mapping interrupt away from ctrl-c to ctrl-k
+    # (^i won't work, as it interferes with tab completion)
+    stty intr ^k
   '';
 
   # zsh
@@ -414,6 +423,7 @@ with {
     syncthing dropbox-cli
     
     # messenger
+    konversation  # irc
     tdesktop signal-desktop slack element-desktop
     zoom-us teams skypeforlinux discord
     
