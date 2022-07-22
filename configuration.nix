@@ -291,14 +291,20 @@ with {
     pkgs.zsh-nix-shell
   ];
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
+  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ssahm = {
     isNormalUser = true;
     description = "Stephan Sahm";
     extraGroups = [ "wheel" "networkmanager" "docker" "scanner" "lp" ];  # "scanner" "lp"  are for scanner
   };
-
+  # nixos-rebuild build-vm test user, see https://nixos.wiki/wiki/NixOS:nixos-rebuild_build-vm
+  users.users.nixosvmtest = {
+    isNormalUser = true;
+    initialPassword = "test";
+    group = "nixosvmtest";
+  };
+  
 
   # DESKTOP
   # ======================================================================================================
