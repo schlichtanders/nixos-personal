@@ -50,9 +50,16 @@ we need to ignore forward slash
 
 ## Rename all files to be compatible with Windows ntfs
 
+test:
 ```bash
 cd  # we need to make sure we call find from home
 find . \( -path "./.*" -o -name "node_modules" -o -name ".venv" -o -name ".nox" -o -name ".git" \) -prune -o -execdir rename -n 's/[\:*?"<>|]/_/g' "{}" +
+```
+
+in real:
+```bash
+cd  # we need to make sure we call find from home
+find . \( -path "./.*" -o -name "node_modules" -o -name ".venv" -o -name ".nox" -o -name ".git" \) -prune -o -execdir rename 's/[\:*?"<>|]/_/g' "{}" +
 ```
 
 ## Sync all files
@@ -61,8 +68,8 @@ bring all dot folders to zip files
 
 ```bash
 for dotfolder in .*/; do
-echo tar -zcvf $(basename $dotfolder).tar.gz $dotfolder
-tar -zcvf $(basename $dotfolder).tar.gz $dotfolder
+echo tar -zcf $(basename $dotfolder).tar.gz $dotfolder
+tar -zcf $(basename $dotfolder).tar.gz $dotfolder
 done
 ```
 
