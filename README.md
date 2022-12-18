@@ -41,3 +41,32 @@ alternatively, if you want to save the output-logs for later inspection, run
 ```bash
 sudo nixos-rebuild switch |& tee /etc/nixos/logs/rebuild-$(date --iso-8601=seconds).txt
 ```
+
+
+# Backup
+
+Characters not allowed in Windows are \/:*?"<>|
+we need to ignore forward slash
+
+## Rename all files to be compatible with Windows ntfs
+
+```bash
+cd  # we need to make sure we call find from home
+find . \( -path "./.*" -o -name "node_modules" -o -name ".venv" -o -name ".nox" -o -name ".git" \) -prune -o -execdir rename -n 's/[\:*?"<>|]/_/g' "{}" +
+```
+
+## Sync all files
+
+bring all dot folders to zip files
+
+```bash
+for dotfolder in .*/; do
+echo tar -zcvf $(basename $dotfolder).tar.gz $dotfolder
+tar -zcvf $(basename $dotfolder).tar.gz $dotfolder
+done
+```
+
+sync complete home
+```bash
+rsync --iconv=. --archive --no-links --whole-file --modify-window=2 --exclude '/.*/' --exclude "node_modules/" --exclude ".venv/" --exclude ".nox/" --progress /home/ssahm/ /run/media/ssahm/Seagate\ Expansion\ Drive/Backups/2022-07-23_NixOS_Home
+```

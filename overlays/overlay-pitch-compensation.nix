@@ -14,7 +14,7 @@ final: prev:
   });
 
   # ffmpeg can use rubberband for pitch compensation (works)
-  ffmpeg-full = prev.ffmpeg-full.overrideAttrs (old: {
+  ffmpeg-rubberband = prev.ffmpeg-full.overrideAttrs (old: {
     buildInputs = (old.buildInputs or []) ++ [
       final.rubberband-shared
     ];
@@ -25,7 +25,7 @@ final: prev:
 
   # kdenlive can use rubberband for pitch compensation (does not work yet)
   kdenlive-pitch-compensation-still-not-working = (prev.kdenlive.override (old: {
-      ffmpeg-full = final.ffmpeg-full;
+      ffmpeg-full = final.ffmpeg-rubberband;
     })
   ).overrideAttrs (old: {
     buildInputs = (old.buildInputs or []) ++ [
