@@ -75,5 +75,5 @@ done
 
 sync complete home
 ```bash
-rsync --iconv=. --archive --no-links --whole-file --modify-window=2 --exclude '/.*/' --exclude "node_modules/" --exclude ".venv/" --exclude ".nox/" --progress /home/ssahm/ /run/media/ssahm/Seagate\ Expansion\ Drive/Backups/2022-07-23_NixOS_Home
+rsync --iconv=. --archive --delete --no-links --whole-file --modify-window=2 --exclude '/.*/' --exclude "node_modules/" --exclude ".venv/" --exclude ".nox/" --progress /home/ssahm/ /run/media/ssahm/Seagate\ Expansion\ Drive/Backups/2022-07-23_NixOS_Home
 ```
