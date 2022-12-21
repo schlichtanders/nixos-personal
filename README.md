@@ -52,14 +52,12 @@ we need to ignore forward slash
 
 test:
 ```bash
-cd  # we need to make sure we call find from home
-find . \( -path "./.*" -o -name "node_modules" -o -name ".venv" -o -name ".nox" -o -name ".git" \) -prune -o -execdir rename -n 's/[\:*?"<>|]/_/g' "{}" +
+~/nixos/utils/mydetox.jl --dry-run
 ```
 
 in real:
 ```bash
-cd  # we need to make sure we call find from home
-find . \( -path "./.*" -o -name "node_modules" -o -name ".venv" -o -name ".nox" -o -name ".git" \) -prune -o -execdir rename 's/[\:*?"<>|]/_/g' "{}" +
+~/nixos/utils/mydetox.jl | tee ~/tmp/mydetox_out.log
 ```
 
 ## Sync all files
@@ -75,5 +73,5 @@ done
 
 sync complete home
 ```bash
-rsync --iconv=. --archive --delete --no-links --whole-file --modify-window=2 --exclude '/.*/' --exclude "node_modules/" --exclude ".venv/" --exclude ".nox/" --progress /home/ssahm/ /run/media/ssahm/Seagate\ Expansion\ Drive/Backups/2022-07-23_NixOS_Home
+rsync --iconv=. --archive --delete --no-links --whole-file --modify-window=2 --exclude '/.*/' --exclude "node_modules/" --exclude ".venv/" --exclude ".nox/" --progress /home/ssahm/ /run/media/ssahm/Seagate\ Expansion\ Drive/Backups/2022-07-23_NixOS_Home 2> ~/tmp/rsync_err.log | tee ~/tmp/rsync_out.log
 ```
