@@ -5,7 +5,6 @@
 { config, pkgs, options, lib, ... }:
 with {
   homedir = "/home/ssahm";
-
   unstable = import
     <nixos-unstable>
     # reuse the current configuration
@@ -31,14 +30,8 @@ with {
       (<nixpkgs> + /pkgs/misc/cups/drivers/samsung/1.00.36/module.nix)
     ];
 
-  # for some reason we need to be explicit about the overlays which we want to use in nixos
-  nixpkgs.overlays =
-    [
-      (import ./overlays/overlay-pdfarranger.nix)
-      # (import ./overlays/overlay-tiddlydesktop.nix)
-      # (import ./overlays/overlay-pitch-compensation.nix)
-      (import ./overlays/overlay-git-clang-format.nix)
-    ];
+  # nixos needs explicit overlays
+  nixpkgs.overlays = import ./overlays.nix;
 
   nix.nixPath =
     # Prepend default nixPath values.
@@ -48,7 +41,7 @@ with {
       # (Note that you need to restart the OS for these environment variables to become active)
       "nixos-config=${homedir}/nixos/configuration.nix"
       # Enable our nixpkgs-overlays everywhere
-      "nixpkgs-overlays=${homedir}/nixos/overlays/"
+      "nixpkgs-overlays=${homedir}/nixos/overlays.nix"
     ];
 
   # nix.extraOptions = ''
@@ -426,6 +419,7 @@ with {
     nix-index
     bundix
     nodePackages.node2nix
+    nix-prefetch-github
 
     # basics
     rename
@@ -471,7 +465,6 @@ with {
     vim
     kakoune # terminal stuff
     unstable.vscode
-    unstable.vscodium
     kate # graphical editors
     # tiddlydesktop
     unstable.zettlr
@@ -510,6 +503,11 @@ with {
     jdk8 # e.g. for pyspark and others where it is easiest if java is on the path
 
     go
+
+    # distributed infrastructure
+    kubectl
+    minikube
+    julia_pod  # defined in overlay
 
     # foldersync
     syncthing
