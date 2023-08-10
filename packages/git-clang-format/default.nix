@@ -1,4 +1,4 @@
-{ pkgs, lib, stdenv, fetchurl, python, clang-tools, makeWrapper }:
+{ pkgs, lib, stdenv, fetchurl, python3, clang-tools, makeWrapper }:
 stdenv.mkDerivation rec {
     pname = "git-clang-format";
     version = "13.0.0";
@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     };
 
     nativeBuildInputs = [ makeWrapper ];
-    buildInputs = [ python ];
+    buildInputs = [ python3 ];
 
     # Remove all phases except installPhase
     phases = [ "installPhase" ];
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
         chmod +x $out/bin/${pname}
 
         wrapProgram $out/bin/${pname} \
-          --suffix-each PATH : "${clang-tools}/bin ${python}/bin"
+          --suffix-each PATH : "${clang-tools}/bin ${python3}/bin"
 
         runHook postInstall
     '';
