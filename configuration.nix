@@ -94,6 +94,10 @@ with {
   # Documentation: https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
   boot.kernel.sysctl."kernel.sysrq" = 1; # NixOS default: 16 (only the sync command)
 
+  # enable cross-compilation for arm64
+  # we instead use docker buildx driver=kubernetes, because julia does not support qemu for ARM
+  # boot.binfmt.emulatedSystems = ["aarch64-linux" "aarch64_be-linux"];
+
   # fixing startup slowdowns due to dhcpcd
   # see https://github.com/NixOS/nixpkgs/issues/60900
   systemd.services.systemd-user-sessions.enable = false;
@@ -105,7 +109,15 @@ with {
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.samsung-unified-linux-driver_1_00_36.enable = true;
-  services.printing.drivers = [ pkgs.epson-201106w ];
+  services.printing.drivers = [
+    pkgs.epson-201106w  # neubrandenburg epson
+    pkgs.cnijfilter2  # juliane's scanner Canon MG2950
+  ];
+  # IPP everywhere printer (see https://nixos.wiki/wiki/Printing)
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  # for a WiFi printer
+  services.avahi.openFirewall = true;
 
   # Enable scanning
   hardware.sane.enable = true;
@@ -223,6 +235,12 @@ with {
     allowedTCPPorts = [ /* dropbox */ 17500 ];
     allowedUDPPorts = [ /* dropbox */ 17500 /* ausweisapp2 */ 24727 ];
   };
+
+  # for developing of cloud.jolin.io
+  # instead using https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
+  # networking.extraHosts = ''
+  #   192.168.49.2 cloud.jolin.io
+  # '';
 
 
   # Configure network proxy if necessary
@@ -403,6 +421,8 @@ with {
     configDir = "/home/ssahm/.config/syncthing";
   };
 
+
+
   # onedrive
   services.onedrive.enable = true;
 
@@ -432,6 +452,9 @@ with {
     htop
     unzip
     zip
+    just
+    jq
+    yq
     xdotool
     nmap
     inetutils
@@ -446,14 +469,20 @@ with {
     ark # basic ui utils
     rpi-imager
     yelp # gtk help
+    # linuxPackages_latest.perf # performance utils
+    xclip
 
     # desktop
     libsForQt5.ksystemlog # look into system logs
     libsForQt5.filelight  # inspecting storage usage
     xdg-utils # open links
     krename  # batch file rename
+    miraclecast  # wifi monitors
+    gnome-network-displays  # wifi monitors
 
     # security
+    sops
+    openssl
     keepassxc
     _1password-gui
     openconnect
@@ -480,32 +509,38 @@ with {
     conda
     unstable.julia-bin
     nodejs
+    clang
     clang-tools
     git-clang-format # cpp development
     texlive.combined.scheme-full # LaTeX
     kaggle
 
-    python39
-    python39Packages.jupyter-repo2docker
-    python39Packages.jupyter-client
-    python39Packages.jupyterlab
-    python39Packages.notebook # jupyter-notebook
-    python39Packages.ipython
+    python3
+    python3Packages.jupyter-repo2docker
+    python3Packages.jupyter-client
+    python3Packages.jupyter_core
+    python3Packages.jupyterlab
+    python3Packages.notebook # jupyter-notebook
+    python3Packages.ipython
     poetry
 
     # tidyverse palmerpenguins quarto - packages for quarto visual editor
-    (rWrapper.override { packages = with rPackages; [ renv tidyverse palmerpenguins quarto ]; })
-    (rstudioWrapper.override { packages = with rPackages; [ renv tidyverse palmerpenguins quarto ]; })
+    # (rWrapper.override { packages = with rPackages; [ renv tidyverse palmerpenguins quarto ]; })
+    # (rstudioWrapper.override { packages = with rPackages; [ renv tidyverse palmerpenguins quarto ]; })
 
     awscli2
     terraform
+    packer
+    hcloud
 
     jdk8 # e.g. for pyspark and others where it is easiest if java is on the path
 
     go
 
     # distributed infrastructure
-    kubectl
+    unstable.kubectl
+    krew
+    kubernetes-helm
     minikube
     julia_pod  # defined in overlay
 
@@ -581,6 +616,7 @@ with {
     musescore
 
     # anderes
+    libsForQt5.skanpage
     AusweisApp2
     libsForQt5.kruler
   ];
